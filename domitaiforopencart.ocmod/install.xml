@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+    <id>Domitai for OpenCart</id>
+    <name>Domitai for OpenCart</name>
+    <code>domitai_for_opencart</code>
+    <version>1.0</version>
+    <vqmver></vqmver>
+    <author>XPectreLabs</author>
+    
+    <file path="admin/view/template/sale/order_info.tpl">
+        <operation>
+            <search >
+                <![CDATA[
+                    <h3 class="panel-title"><i class="fa fa-comment-o"></i> <?php echo $text_history; ?></h3>
+                ]]>
+            </search>
+            <add position="before">
+                <![CDATA[
+                    <h3 class="panel-title"><i class="fa fa-comment-o"></i> Domitai for OpenCart</h3>
+                    </div>
+                    <div class="panel-body">
+                    <div id="dintero_wrap"></div>
+                    </div>
+                    </div>
+                    <div class="panel panel-default">
+                    <div class="panel-heading">
+                    
+                ]]>
+            </add>
+        </operation>
+        <operation>
+            <search >
+                <![CDATA[
+                    <?php echo $footer; ?>
+                ]]>
+            </search>
+            <add position="before">
+                <![CDATA[
+                    <script>
+                    $(document).ready(function(){
+                    $( "#dintero_wrap" ).load( "index.php?route=extension/payment/dintero/get_status&token=<?php echo $token ?>&order_id=<?php echo $order_id ?>" );
+                    });
+                    </script>
+                ]]>
+            </add>
+        </operation>
+    </file>
+    
+    <file path="admin/controller/sale/order.php">
+        <operation>
+            <search index="1">
+                <![CDATA[
+                    $data['payment_method'] = $order_info['payment_method'];
+                ]]>
+            </search>
+            <add position="after">
+                <![CDATA[
+                    /** dintero start */
+                    if($order_info['payment_code']=='dintero'){
+                    //$data['payment_method'] = $order_info['payment_method'].'<span id="dintero_status"><span>';
+                    }
+                    /** dintero end */
+                ]]>
+            </add>
+        </operation>
+    </file>
+</modification>

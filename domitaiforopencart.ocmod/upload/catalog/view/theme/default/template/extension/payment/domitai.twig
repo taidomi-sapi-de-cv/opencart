@@ -1,0 +1,302 @@
+<style>
+.selected{
+	background: #1B5F93!important;
+}
+.buttonCoin{
+	border-radius: 10px;
+    border: none;
+    outline: none;
+    position: relative;
+    text-align: center;
+    font-weight: bold;
+    background: transparent;
+    height: 45px;
+	width:45px;
+    color: white;
+	margin: 0 7px;
+}
+.sidebarButton{
+	color: #fff;
+    background: #2A8AD5;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    outline: none;
+	display:none;
+}
+
+.addressPay{
+	background: transparent;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+	border-radius: 10px;
+	padding: 5px 10px;
+    text-align: center;
+ }
+ .addressPay:hover{
+	background: #2A8AC0!important;
+    color: white;
+ }
+ .icons_coins{
+	 width:20px!important;
+	 position: absolute;
+     left: 5px;
+     top: 5px;
+ }
+ .imageGeneral {
+	 padding:0!important;
+	display:initial!important;
+	background:transparent!important;
+	border:none!important;
+	width:100px;
+ }
+ .container_plugin{
+	 background-color:#F3F3F3;
+	 border-radius: 10px;
+    margin-top: 30px;
+ }
+ #content_qr{
+	 display: flex;
+    margin: 0 auto;
+	padding: 30px 0;
+ }
+ #first_title{
+	text-align: center;
+    font-weight: bold;
+    padding-top: 40px;
+	padding-bottom:20px;
+ }
+
+ #side_bar{
+	text-align: center;
+    width: 100%;
+    padding: 5px 0;
+    background: #2A8AD5;
+    border-radius: 10px;
+ }
+ #qrContent{
+	 text-align:center;
+	 width: 100%;
+ }
+ .qrClass{
+	 display: flex;
+ }
+ .qrClass > div{
+	 width: 47%;
+    background: white;
+    border-radius: 10px;
+    margin: 0 auto;
+	padding: 30px 0;
+ }
+ .subtitle{
+	 font-weight: bold;
+    color: #2A8AD5;
+ }
+ #side_bar > div{
+	 margin: 40px 0;
+ }
+ .qr_images{
+	display:initial;
+	width: 180px;
+	-webkit-box-shadow: 0px 23px 45px -28px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 23px 45px -28px rgba(0,0,0,0.75);
+	box-shadow: 0px 23px 45px -28px rgba(0,0,0,0.75);
+    border-radius: 10px;
+ }
+ .currencyText{
+	 padding-top: 10px;
+    font-size: 20px;
+ }
+ #open_wallet{
+	background: #23a1d1;
+    display: block;
+    margin: 0 auto;
+    color: white;
+    width: 120px;
+    font-size: 12px;
+    padding: 2px 0;
+    font-weight: bold;
+    border-radius: 20px;
+    height: 26px;
+ }
+ #icon{
+	 position: absolute;
+    background: #008AD5;
+    height: 35px;
+    left: -40px;
+    top: -3px;
+    padding: 6px 0;
+    width: 35px;
+    border-radius: 10px;
+ }
+ #container_code{
+	 position:relative;
+	 margin: 0 auto;
+    width: 65%;
+ }
+ @media (max-width: 720px) {
+	 .qrClass{
+		 display:initial;
+	 }
+	 #first_title{
+		 font-size:25px;
+	 }
+
+	 .qrClass > div{
+		 width:90%;
+		 margin-bottom:15px;
+	 }
+	 .buttonCoin{
+		 margin:0 auto;
+		width:85%;
+	 }
+	 #side_bar{
+		 position:absolute;
+		 height:300px;
+		 overflow:scroll;
+	 }
+	 .sidebarButton{
+		 display:inherit;
+	 }
+	 .display_bar{
+		 display:none;
+	 }
+ }
+
+</style>
+<hr>
+<div class="container_plugin">
+	<h1 id="first_title">{{text_title}}</h1>
+	<div style="margin:0 auto;width:85%;position:relative">
+	<button class="sidebarButton">&#9776;</button>
+	<div id="side_bar" class="display_bar">
+	        {% for cryptocurrency in cryptocurrencies %}
+					<button class="buttonCoin">
+						<img style="width:30px" src="https://domitai.com/assets/img/coins/{{cryptocurrency.currency}}.png" />
+					</button>
+			{% endfor %}
+		</div>
+		
+	<div id="content_qr">
+		<div id="qrContent">
+			{% for cryptocurrency in cryptocurrencies %}
+				<div class="qrClass" style="display:none">
+					<div>
+					    <h3 class="subtitle">{{select_text}}</h3>
+						<br>
+						<img class="imageGeneral" src="https://domitai.com/assets/img/coins/{{cryptocurrency.currency}}.png" />
+						<h5 class="subtitle currencyText">{{cryptocurrency.currency}} {{cryptocurrency.label == "Label Undefined" ? "":cryptocurrency.label}}</h5>
+						<br>
+						<h5 style="font-size:20px">Cantidad equivalente:</h5>
+						<h3 style="font-weight: bold;font-size: 30px;">$ {{cryptocurrency.amount}}</h3>
+						<br><br>
+						<a id="open_wallet" href="{{cryptocurrency.uri}}">Abrir wallet</a>
+					</div>
+					<div>
+						<h3 class="subtitle">{{title_address}}</h3>
+						<br>
+							<h3 style="font-size: 15px;margin:0"> {{scan}} <span class="subtitle">{{qr_text}}</span> {{get_address}}</h3>
+						<br>
+						<img class="qr_images" src="{{cryptocurrency.qr}}" alt="No se puede mostrar qr"/>
+						<br><br><br>
+						<div id="container_code">
+							<div id="icon">
+								<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<g clip-path="url(#clip0)">
+									<path d="M16.5882 7.52942H9.17646C8.26682 7.52942 7.5294 8.26683 7.5294 9.17648V16.5882C7.5294 17.4979 8.26682 18.2353 9.17646 18.2353H16.5882C17.4979 18.2353 18.2353 17.4979 18.2353 16.5882V9.17648C18.2353 8.26683 17.4979 7.52942 16.5882 7.52942Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+									<path d="M4.23529 12.4707H3.41176C2.97493 12.4707 2.556 12.2971 2.24711 11.9882C1.93823 11.6794 1.7647 11.2604 1.7647 10.8236V3.41183C1.7647 2.975 1.93823 2.55607 2.24711 2.24718C2.556 1.9383 2.97493 1.76477 3.41176 1.76477H10.8235C11.2604 1.76477 11.6793 1.9383 11.9882 2.24718C12.2971 2.55607 12.4706 2.975 12.4706 3.41183V4.23536" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+									</g>
+									<defs>
+									<clipPath id="clip0">
+									<rect x="0.117645" y="0.117676" width="19.7647" height="19.7647" fill="white"/>
+									</clipPath>
+									</defs>
+								</svg>
+							</div>
+							<input class="addressPay" type="text" value="{{cryptocurrency.address}}" readonly/>
+						</div>
+					</div>
+				</div>    
+			{% endfor %}
+		</div>
+	</div>
+	</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script type="text/javascript"><!--
+	
+	$('.sidebarButton').eq(0).on("click",function(){
+		console.log("lklkl");
+		if($('#side_bar').hasClass("display_bar")) $('#side_bar').removeClass("display_bar")
+		else $('#side_bar').addClass("display_bar");
+	});
+
+    $('.buttonCoin').eq(0).addClass("selected");
+    $('.qrClass').eq(0).removeAttr("style");
+	const inputAddress = document.querySelectorAll(".addressPay");
+	inputAddress.forEach(element => {
+		element.addEventListener("focus",() => {
+			let selBox = document.createElement('textarea');
+			selBox.style.position = 'fixed';
+			selBox.style.left = '0';
+			selBox.style.top = '0';
+			selBox.style.opacity = '0';
+			selBox.value = element.value;
+			document.body.appendChild(selBox);
+			selBox.focus();
+			selBox.select();
+			document.execCommand('copy');
+			document.body.removeChild(selBox);
+			Swal.fire({
+				type:"success",
+				title:"Copiado",
+				timer:1500,
+				showConfirmButton:false
+			})
+		})
+	})	
+	const buttons = document.getElementsByClassName('buttonCoin');
+	for( let i = 0;i<buttons.length;i++){
+		buttons[i].addEventListener("click",() => {
+			let classQr = document.getElementsByClassName("qrClass");
+			let count = 0;
+			for (let qr of classQr ) {
+				qr.setAttribute("style","display:none");
+				buttons[count].classList.remove("selected");
+				count++;
+			}
+			classQr[i].removeAttribute("style");
+			buttons[i].classList.add("selected");
+			let width = window.screen.width;
+			if(width <= 720) $('#side_bar').addClass("display_bar");
+		});
+	}
+
+	setInterval(() => {
+		$.ajax({
+			url: 'index.php?route=extension/payment/domitai/verify_status_order',
+			type:"post",
+			dataType: 'json',
+			beforeSend: function() {
+				//$('#button-confirm').button('loading');
+			},
+			complete: function() {
+				//$('#button-confirm').button('reset');
+			},
+			success: function(json) {
+				if (json['redirect']) {
+					location = json['redirect'];	
+				}
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			//	alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			}
+		});
+	},10000)
+		
+
+
+//--></script>
